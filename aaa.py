@@ -128,7 +128,7 @@ driver.find_element(By.XPATH,"//input[@name='text']").send_keys('beproject2024')
 time.sleep(1)
 driver.find_element(By.XPATH,"//span[contains(text(),'Next')]").click()
 time.sleep(3)
-driver.find_element(By.XPATH,"//input[@name='password']").send_keys("Beproject@24")#enter password Beproject@24 asi121101
+driver.find_element(By.XPATH,"//input[@name='password']").send_keys("Beproject@24")#enter password Beproject@24 
 time.sleep(1)
 driver.find_element(By.XPATH,"//span[contains(text(),'Log in')]").click()
 time.sleep(10)
