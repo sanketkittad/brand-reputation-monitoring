@@ -113,7 +113,7 @@ def generate_search_queries(keyword, days):
     return queries
 
 
-keyword = "samsung galaxy lang:en "
+keyword = "zomato lang:en "
 search_queries = generate_search_queries(keyword, 100)
 
 driver.get('https://twitter.com/i/flow/login')
