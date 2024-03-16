@@ -31,10 +31,6 @@ def extract_data(card):
 def start_scraping(hashtag):
 
     print("started")
-
-    
-
-    
     
     data = []
     tweet_ids = set()
@@ -104,7 +100,7 @@ def start_scraping(hashtag):
 
 def generate_search_queries(keyword, days):
     queries = []
-    end_date = datetime.now()
+    end_date = datetime.date(2024, 3, 14)
     start_date = end_date - timedelta(days=days)  # Adjusted to subtract one day less
     delta = timedelta(days=2)
     
