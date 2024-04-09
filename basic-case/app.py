@@ -117,8 +117,8 @@ def getAnalysis(brand1,brand2):
     dtf=dfr.copy()
     influence_brand1_on_brand2, influence_brand2_on_brand1 = calculate_influence(dtf)
 
-    print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
-    print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
+    # print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
+    # print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
 
 
     brand = f"{brand1} on {brand2}"  
