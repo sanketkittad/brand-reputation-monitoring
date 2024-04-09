@@ -12,143 +12,18 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     </head>
     <body class="h-100 w-100 d-flex">
-        <div class="container-fluid d-flex p-4 w-25 h-50 m-auto border border-dark">
-            <form method="POST" class="d-flex flex-column m-auto" action="/data">
-                <select id="category" class="my-2"  onchange="makeSubmenu(this.value)">
-                    <option value="" disabled selected>Choose Category</option>
-                    <option value="mobiles">Mobiles</option>
-                    <option value="laptops">Laptops</option>
-                    <option value="streaming">Steaming Services</option>
-                    <option value="social_media">Social Media</option>
-                    <option value="automobiles">Automobiles</option>
-                    <option value="food_delivery">Food Delivery</option>
-                    <option value="consoles">Consoles</option>
-                    <option value="music">Music</option>
-                    </select>
-                <select class="my-2" id="categorySelect1">
-                    <option value="" disabled selected>Choose Your Brand</option>
-                    <option></option>
-                </select>
-                <select class="my-2" id="categorySelect2">
-                    <option value="" disabled selected>Choose Competitor Brand</option>
-                    <option></option>
-                </select>
-                <button type="submit" class="btn-primary mt-4 mx-auto">Submit</button>
-            </form>
-        </div>
-        <div class="container-fluid d-flex px-1 py-1  w-50 h-75 m-auto border border-dark">
-            <div class="container-fluid p-0 m-0 d-flex w-100 h-100">
-                <div class="w-50 d-flex flex-column  mx-auto mb-auto h-50" id="samsung">
-                    <h6 class="d-flex justify-content-center">Your product</h6>
-                </div>
-                <div class="w-50 d-flex flex-column mb-auto mx-auto h-50" id="apple">
-                    <h6 class="d-flex justify-content-center">Competitor</h6>
-                </div> 
+        
+        <div class="container-fluid d-flex px-1 py-1  w-75 h-100 m-auto">
+            <div class="container-fluid d-flex p-0 m-0 d-flex flex-column w-100 h-100">
+                <img src="data:image/png;base64, {{ jsonobjs.bar1 }}"><img src="data:image/png;base64, {{ jsonobjs.bar2 }}">
+                <img src="data:image/png;base64, {{ jsonobjs.bar3 }}"><img src="data:image/png;base64, {{ jsonobjs.bar4 }}">
             </div>
         </div>
-        <script src="http://d3js.org/d3.v4.min.js"></script>
-        <script>
-            var subcategory = {
-                mobiles: ["Apple", "Redmi", "Samsung","Oppo","Vivo"],
-                laptops: ["HP", "Samsung", "Acer","Dell","Lenovo"],
-                streaming:["Netflix","Amazon","Hulu","Youtube","Disney"],
-                social_media:["Facebook","Youtube","WhatsApp","Instagram"],
-                automobiles:["Maruti Suzuki","Hyundai","Skoda","Tata"]
-
-            }
-            function makeSubmenu(value) {
-                if (value.length == 0) document.getElementById("categorySelect").innerHTML = "<option></option>";
-                else {
-                    var citiesOptions = "";
-                    for (categoryId in subcategory[value]) {
-                        citiesOptions += "<option>" + subcategory[value][categoryId] + "</option>";
-                    }
-                    document.getElementById("categorySelect1").innerHTML+= citiesOptions;
-                    document.getElementById("categorySelect2").innerHTML+= citiesOptions;
-                }
-            }
-            const visualise=(data,id)=>{
-                console.log(data);
-            
-                var data_visu = {};
-
-                for (var i = 0; i < 3; i++) {
-                
-                data_visu[ data.sentiment[i] ] = data.count[i];
-                }
-
-                var width = 175,
-                    height = 175,
-                    margin = 0;
-
-                // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-                var radius = Math.min(width, height) / 2 - margin
-
-                // append the svg object to the div called 'my_dataviz'
-                var svg = d3.select(id)
-                .append("svg")
-                    .attr("width", width)
-                    .attr("height", height)
-                    .attr("class","mx-auto")
-                .append("g")
-                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-                // Create dummy data
-
-
-                // set the color scale
-                var color = d3.scaleOrdinal()
-                .domain(data_visu)
-                .range(["#F0B86E", "#ED7B7B", "#836096"])
-
-                // Compute the position of each group on the pie:
-                var pie = d3.pie()
-                .value(function(d) {return d.value; })
-                var data_ready = pie(d3.entries(data_visu))
-                
-                // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-                svg
-                .selectAll('whatever')
-                .data(data_ready)
-                .enter()
-                .append('path')
-                .attr('d', d3.arc()
-                    .innerRadius(0)
-                    .outerRadius(radius)
-                )
-                .attr('fill', function(d){ return(color(d.data.key)) })
-                .attr("stroke", "black")
-                .style("stroke-width", "2px")
-                .style("opacity", 0.7);
-                // Append text labels to the pie chart segments
-                svg
-                .selectAll('text')
-                .data(data_ready)
-                .enter()
-                .append('text')
-                .text(function(d) { return d.data.key; }) // The label text comes from the data's key
-                .attr("transform", function(d) {
-                var pos = d3.arc()
-                    .innerRadius(0)
-                    .outerRadius(radius)
-                    .centroid(d);
-                return "translate(" + pos + ")";
-                })
-                .style("text-anchor", "middle") // Center-align the text
-                .style("font-size", "12px") // Set the font size
-                .style("fill", "white"); // Set the text color
-            }
-            var samsung_data={{samsung_data | tojson}};
-            samsung_data=JSON.parse(samsung_data);
-            visualise(samsung_data,"#samsung");
-            var apple_data={{apple_data | tojson}};
-            apple_data=JSON.parse(apple_data);
-            visualise(apple_data,"#apple");
-
-        
-        </script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script>
+       
+        </script>
     </body>
 </html>
