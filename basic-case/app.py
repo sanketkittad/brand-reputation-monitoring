@@ -167,7 +167,7 @@ def getAnalysis(brand1,brand2,category):
     brand2_path = brand2[0].upper()+brand2[1:]
     dfr = process_data(brand1_path, brand2_path)
     # index=False to avoid an extra index column
-    print(dfr)
+    # print(dfr)
 
 
 
@@ -193,8 +193,8 @@ def getAnalysis(brand1,brand2,category):
     dtf=dfr.copy()
     influence_brand1_on_brand2, influence_brand2_on_brand1 = calculate_influence(dtf)
 
-    print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
-    print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
+    # print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
+    # print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
 
 
     brand = f"{brand1} on {brand2}"  
@@ -244,7 +244,7 @@ def getAnalysis(brand1,brand2,category):
         return combined_df
 
     df = process_data(brand1_path, brand2_path)
-    print(df.head)
+    # print(df.head)
     
     def generate_wordcloud(brand_data, brand_name,*ct):
         text = " ".join(tweet for tweet in brand_data['tweet_text_element'])
@@ -260,7 +260,7 @@ def getAnalysis(brand1,brand2,category):
         plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
 
         jsonobjs[ct]=plot_url
-        print(ct)
+        # print(ct)
 
 
 
@@ -285,7 +285,7 @@ def getAnalysis(brand1,brand2,category):
     buff.seek(0)
     plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
     jsonobjs["bar2"]=plot_url
-    print("bar2")    
+    # print("bar2")    
     brand_data = df[df['brand'] ==     brand2[0].upper()+brand2[1:]]
     text = " ".join(tweet for tweet in brand_data['tweet_text_element'])
     wordcloud = WordCloud(background_color='white', width=800, height=600).generate(text)
@@ -299,7 +299,7 @@ def getAnalysis(brand1,brand2,category):
     buff.seek(0)
     plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
     jsonobjs["bar3"]=plot_url
-    print("bar3")
+    # print("bar3")
     sentiment_scores = {}  # Initialize an empty dictionary to store sentiment scores
 
     def calculate_feature_sentiment(tweet_text, feature_keywords):
@@ -387,7 +387,7 @@ def getAnalysis(brand1,brand2,category):
     for brand in brands:
         brand_features = [n for n in G.neighbors(brand)]  # Features connected to a brand
         top_features = sorted(brand_features, key=lambda x: degree_centrality[x], reverse=True)[:3]
-        print(f"Top Features for {brand}: {top_features}")
+        # print(f"Top Features for {brand}: {top_features}")
         
     # Customize visualization 
     node_colors = ['lightblue' if G.nodes[n]['type'] == 'brand' else 'orange' for n in G.nodes()]
@@ -427,7 +427,7 @@ def getAnalysis(brand1,brand2,category):
         buff.seek(0)
         plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
         jsonobjs["bar6"]=plot_url
-        print(overtime)
+        # print(overtime)
     else:
         print(f"Error: The data file  is missing required columns.")
     jsonobjs["branda"]=brand1
