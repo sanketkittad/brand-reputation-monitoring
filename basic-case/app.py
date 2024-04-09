@@ -214,7 +214,7 @@ def getAnalysis(brand1,brand2,category):
     bars = plt.bar(df_d.index, df_d['Influence Score (%)'], color='skyblue')
     plt.xlabel('Influence')
     plt.ylabel('Percentage (%)')
-    plt.title(f"{brand1} Influence on Sentiment")
+    plt.title(f"{brand1[0].upper()+brand1[1:]} Influence on Sentiment")
     plt.ylim(0, 100) 
 
     # Add percentage labels (optional)
@@ -348,7 +348,7 @@ def getAnalysis(brand1,brand2,category):
     x = range(len(feature_labels))
     bar_width = 0.35
     plt.bar(x, brand1_sentiment, bar_width, label=brand1[0].upper()+brand1[1:])
-    plt.bar([p + bar_width for p in x], brand2_sentiment, bar_width, label='Samsung')
+    plt.bar([p + bar_width for p in x], brand2_sentiment, bar_width, label=brand2[0].upper()+brand2[1:])
     plt.xlabel('Feature')
     plt.ylabel('Normalized Sentiment Score (0-1)')
     title = 'Comparison of Average Sentiment by Feature (Normalized)'
@@ -395,7 +395,9 @@ def getAnalysis(brand1,brand2,category):
     pos = nx.spring_layout(G)  # You can experiment with different layouts
 
     nx.draw(G, pos, with_labels=True, node_color=node_colors, width=edge_widths)
+    
     buff=io.BytesIO()
+    plt.title("Network Analysis")
     plt.savefig(buff,format='png')
     buff.seek(0)
     plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
