@@ -29,20 +29,96 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import networkx as nx
 
+
+    
+features_array={
+        "mobiles":{
+        "camera": ["camera", "photo", "picture", "lens", "image quality"], 
+        "battery": ["battery", "charge", "life", "battery drain"],
+        "screen": ["screen", "display", "resolution", "oled", "amoled"],
+        "processor": ["processor", "speed", "chip", "snapdragon", "performance", "bionic","a14"], 
+        "design": ["design", "look", "feel", "build quality"],
+        "price": ["price", "expensive", "cheap", "value"]
+    },
+    
+    "food_delivery": {
+        "ordering": ["order", "ordering", "menu", "easy", "variety", "options"],
+        "delivery": ["delivery", "time", "fast", "track", "tracking", "fee", "fees"],
+        "food": ["food", "quality", "taste", "delicious", "portion"],
+        "customer_service": ["service", "support", "help", "response", "refund"],
+        "pricing": ["price", "value", "expensive", "cheap", "discount", "promotion"]
+    },
+    "laptops": {
+        "performance": ["performance", "speed", "processor", "i5", "i7", "i9", "ryzen", "m1", "m2"],
+        "graphics": ["graphics", "gpu", "dedicated_graphics", "integrated_graphics", "nvidia", "amd", "intel_iris"],
+        "display": ["display", "screen", "resolution", "retina", "oled", "ips", "refresh_rate"],
+        "storage": ["storage", "ssd", "hdd", "hard_drive", "capacity", "256gb", "512gb", "1tb"],
+        "memory": ["memory", "ram", "8gb", "16gb", "32gb"],
+        "build": ["build", "design", "materials", "aluminum", "magnesium", "weight", "thinness"],
+        "battery": ["battery", "battery_life", "charge", "longevity"],
+        "price": ["price", "expensive", "cheap", "value", "affordable"]
+    },
+    "streaming_services": {
+        "content_library": ["library", "movies", "shows", "selection", "variety", "originals", "exclusives"],
+        "genres": ["genres", "comedy", "drama", "thriller", "sci-fi", "horror", "documentaries"],
+        "quality": ["quality", "4k", "hdr", "dolby", "resolution", "streaming_quality", "buffering"],
+        "price": ["price", "value", "subscription", "plans", "bundles", "free_trial"],
+        "customer_support": ["support", "customer_service", "help", "responsive"]
+    },
+    "social_media": {
+        "content_types": ["posts", "photos", "videos", "stories", "reels", "live"],
+        "user_experience": ["ui", "ux", "user_interface", "design", "navigation", "ease_of_use", "bugs"],
+        "social_features": ["messaging", "groups", "events", "marketplace", "sharing", "profiles"],
+        "community": ["community", "interactions", "comments", "engagement", "moderation", "toxicity"],
+        "privacy": ["privacy", "security", "data", "data_collection", "ads", "settings"],
+        "customer_support": ["support", "customer_service", "help", "responsive", "issues"]
+    },
+    "automobiles": {
+        "performance": ["performance", "speed", "acceleration", "handling", "horsepower", "torque", "engine", "transmission"],
+        "fuel_efficiency": ["fuel", "mpg", "efficiency", "hybrid", "electric", "range"],
+        "safety": ["safety", "crash_test", "airbags", "brakes", "driver_assistance"],
+        "reliability": ["reliability", "dependable", "issues", "maintenance", "warranty"],
+        "technology": ["technology", "infotainment", "gps", "bluetooth", "sound_system", "voice_commands"],
+        "price": ["price", "value", "affordability", "expensive", "deals"]
+    },
+    "music_streaming_services": {
+        "music_library": ["library", "songs", "artists", "albums", "selection", "variety"],
+        "genres": ["genres", "pop", "rock", "hip_hop", "classical", "jazz", "electronic", "niche"],
+        "sound_quality": ["quality", "high_fidelity", "lossless", "bitrate", "spatial_audio"],
+        "features": ["offline_listening", "lyrics", "podcasts", "social", "concerts"],
+        "price": ["price", "value", "subscription", "plans", "bundle", "free"],
+        "customer_support": ["support", "customer_service", "help", "responsive"]
+    },
+    "gaming_consoles": {
+        "hardware": ["hardware", "power", "graphics", "specs", "processor", "storage", "controller"],
+        "online_services": ["online", "multiplayer", "subscriptions", "ps_plus", "game_pass"],
+        "features": ["backward_compatibility", "vr", "game_streaming", "interface", "media"],
+        "game_library": ["library", "games", "selection", "variety", "indie"],
+        "user_experience": ["ui", "ux", "user_interface", "design", "navigation", "ease_of_use"],
+        "community": ["community", "online", "friends", "tournaments"],
+        "price": ["price", "value", "affordability", "expensive"]
+    }
+}
+
+
+
+
 @app.route("/",methods=["GET","POST"])
 def index():
     if request.method=="POST":
         brand1=request.form['brand1']
         brand2=request.form['brand2']
-        jsonobjs=getAnalysis(brand1,brand2)
+        category=request.form['category']
+        jsonobjs=getAnalysis(brand1,brand2,category)
         return render_template("main.html",jsonobjs=jsonobjs)    
     return render_template("index.html")
     
 # Initialize Sentiment analyzer
-def getAnalysis(brand1,brand2):
+def getAnalysis(brand1,brand2,category):
     analyzer = SentimentIntensityAnalyzer() 
     brand1=brand1.lower()
     brand2=brand2.lower()
+    features=features_array[category]
     buff=io.BytesIO()
     def calculate_sentiment(text):
         if not text.strip():  # Check if empty after removing whitespace
@@ -117,8 +193,8 @@ def getAnalysis(brand1,brand2):
     dtf=dfr.copy()
     influence_brand1_on_brand2, influence_brand2_on_brand1 = calculate_influence(dtf)
 
-    # print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
-    # print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
+    print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
+    print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
 
 
     brand = f"{brand1} on {brand2}"  
@@ -232,14 +308,6 @@ def getAnalysis(brand1,brand2):
             sentiment_score = analyzer.polarity_scores(tweet_text)['compound']
         return sentiment_score
 
-    features = {
-        "camera": ["camera", "photo", "picture", "lens", "image quality"], 
-        "battery": ["battery", "charge", "life", "battery drain"],
-        "screen": ["screen", "display", "resolution", "oled", "amoled"],
-        "processor": ["processor", "speed", "chip", "snapdragon", "performance", "bionic","a14"], 
-        "design": ["design", "look", "feel", "build quality"],
-        "price": ["price", "expensive", "cheap", "value"]
-    }
 
     for brand in df['brand'].unique():
         for feature, keywords in features.items():
@@ -360,5 +428,6 @@ def getAnalysis(brand1,brand2):
         print(overtime)
     else:
         print(f"Error: The data file  is missing required columns.")
- 
+    jsonobjs["branda"]=brand1
+    jsonobjs["brandb"]=brand2
     return jsonobjs
