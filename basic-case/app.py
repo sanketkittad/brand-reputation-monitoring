@@ -256,6 +256,7 @@ def getAnalysis(brand1,brand2,category):
         plt.title(f"Word Cloud for {brand_name}")
         buff=io.BytesIO()
         plt.savefig(buff,format='png')
+        
         buff.seek(0)
         plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
 
