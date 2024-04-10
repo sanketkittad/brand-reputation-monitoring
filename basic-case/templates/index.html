@@ -1,206 +1,63 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            
-        }
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 100px;
-        }
-        .logo {
-            width: 100px;
-            height: 100px;
-        }
-        .container-fluid {
-            background-color: floralwhite;
-            border-radius: 10px;
-        }
-        .form-container {
-            margin-top: 20px;
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            background-color: #111; 
-            padding: 30px;         
-            border-radius: 15px;   
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); 
-        }
-        /* Target the select boxes more specifically */
-        .form-container select { 
-            background-color: #333 !important;  
-            color: white !important;          
-            border: none !important;            
-            padding: 8px 12px !important;      
-            border-radius: 8px !important;   
-        }
-        /* Select Box Styles */
-        select {
-            background-color: #333;  /* Dark background */
-            color: white;            /* Light text on dark background */
-            border: none;            /* Removes default border */
-            padding: 8px 12px;       /* Adds spacing within select */
-            border-radius: 8px;      /* Rounds the corners */
-            cursor: pointer;         /* Changes cursor on hover */
-        }
-        /* Hover effect on Select*/
-        select:hover {
-            background-color: #444;  /* Slightly lighter shade on hover */
-        }
-        /* Button Styles */
-        /* Updated Button Styles (replace existing)*/
-        .btn-primary {
-    background-color: #E9573F; /* A vibrant red */
-    border-color: #d7462e; /* Slightly darker shade of red */
-    color: white;          /* High contrast text */
-    font-weight: bold;     /* Emphasize the text */
-    text-transform: uppercase; /* Unique styling */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2), 0px 0px 20px rgba(233, 87, 63, 0.8); 
-    transition: all 0.3s ease; /* Smooth transition for all properties */
-    width: 150px;  /* Adjust the width as desired */
-    height: 45px;  /* Adjust the height as desired */
-    padding: 12px 25px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    border-radius: 15px;
-    text-shadow: 0px 0px 1px #000, 0px 0px 1px #000, 0px 0px 1px #000; /* Add a border around the text */
-}
-
-        .btn-primary:hover {
-            background-color: #f06c47; 
-            transform: translateY(-2px);  /* Moves the button slightly up */
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* More prominent shadow */
-        }
-        /* Add an animation for a pulse effect */
-        .btn-primary:active {
-            background-color: #dd0c0c; /* Darker shade on press */
-            transform: translateY(0px);  /* Reset vertical movement */
-            animation: pulse 0.5s ease; 
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); }
-            50% { box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.4); }
-            100% { box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); }
-        }
-        /* Assuming you have subcategories in lists */
-        ul li {
-            list-style-type: none;  /* Removes default bullet points */
-            padding: 8px 12px;      /* Adds spacing within the list item */
-            cursor: pointer;        /* Changes the cursor on hover */
-            color: white;           /* Text color */
-        }
-        /* Customize the hover effect */
-        ul li:hover {
-            background-color: #333;  /* Dark background on hover */
-            border-radius: 5px;     /* Softens the edges */
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* A subtle shadow */
-            transition: background-color 0.3s ease;  /* Adds a smooth transition */
-        }
-        /* Disabled Button Styles */
-        .btn-primary[disabled] {
-    background-color: #ccc; /* Light gray background for disabled state */
-    color: black;             /* Dark gray text for disabled state */
-    cursor: not-allowed;    /* Change cursor to not-allowed */
-    box-shadow: none;       /* Remove shadow for disabled state */
-    text-shadow: none; /* Add a border around the text */
-}
-    </style>
-</head>
-<body class="">
-    <div class="logo-container">
-        <a href="https://imgbb.com/"><img src="https://i.ibb.co/tCR9vmW/Whats-App-Image-2024-04-09-at-12-45-47-AM-removebg-preview.png" alt="logo"></a>
-    </div>
-    <div class="form-container container-fluid d-flex p-4 w-50 m-auto">
-        <form method="POST" class="d-flex flex-column m-auto" action="/">
-            <select name="category" id="category" class="my-2" onchange="makeSubmenu(this.value)">
-                <option value="" disabled selected>Choose Category</option>
-                <option value="mobiles">Mobiles</option>
-                <option value="laptops">Laptops</option>
-                <option value="streaming">Streaming Services</option>
-                <option value="social_media">Social Media Sites</option>
-                <option value="automobiles">Automobiles</option>
-                <option value="food_delivery">Food Delivery Services</option>
-                <option value="gaming_consoles">Gaming Consoles</option>
-                <option value="music_streaming_services">Music Streaming Services</option>
-            </select>
-            
+<html class="h-100 w-100 d-flex">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body class="h-100 w-100 d-flex" style="background-color: #C5EBAA;">
+        <div class="container-fluid d-flex p-4 w-25 h-50 m-auto" style="background-color:floralwhite;">
+            <form method="POST" class="d-flex flex-column m-auto" action="/">
                 
-                
-            <select class="my-2" name="brand1" id="categorySelect1" disabled onchange="checkBrandSelection()">
-                <option value="" disabled selected>Choose Your Brand</option>
-                <option></option>
-            </select>
-            <select class="my-2" name="brand2" id="categorySelect2" disabled onchange="checkBrandSelection()">
-                <option value="" disabled selected>Choose Competitor Brand</option>
-                <option></option>
-            </select>
-            <button type="submit" class="btn-primary mt-4 mx-auto" disabled>Analyze</button>
-        </form>
-    </div>
-    <script>
-        var subcategory = {
-            mobiles: ["Apple", "Xiaomi", "Samsung","Oppo","Vivo"],
-            laptops: ["HP", "Samsung","Dell","Lenovo"],
-            streaming:["Netflix","Amazon","Hulu","Youtube",],
-            social_media:["Facebook","Youtube","WhatsApp","Instagram"],
-            automobiles:["Maruti Suzuki","Hyundai","Mahindra","Tata"],
-            food_delivery:["Dunzo","Zomato","Swiggy"],
-            gaming_consoles:["Xbox","Playstation"],
-            music_streaming_services:["Spotify","Apple music","Amazon Music","Youtube Music"]
-        }
-        function makeSubmenu(value) {
-    var brand1Select = document.getElementById("categorySelect1");
-    var brand2Select = document.getElementById("categorySelect2");
-    var submitButton = document.querySelector(".btn-primary");
-
-    if (value.length == 0) {
-        brand1Select.innerHTML = "<option value='' disabled selected>Choose Your Brand</option>";
-        brand2Select.innerHTML = "<option value='' disabled selected>Choose Competitor Brand</option>";
-        brand1Select.disabled = true;
-        brand2Select.disabled = true;
-        submitButton.disabled = true;
-    } else {
-        var brandsOptions = "";
-        var brands = subcategory[value];
-        for (var i = 0; i < brands.length; i++) {
-            brandsOptions += "<option>" + brands[i] + "</option>";
-        }
-        brand1Select.innerHTML = "<option value='' disabled selected>Choose Your Brand</option>" + brandsOptions;
-        brand2Select.innerHTML = "<option value='' disabled selected>Choose Competitor Brand</option>" + brandsOptions; // Populate brand2Select with the same options as brand1Select
-        brand1Select.disabled = false;
-        brand2Select.disabled = false;
-        submitButton.disabled = false;
-    }
-}
-
-// Function to check if brand and competitor brand are the same
-function checkBrandSelection() {
-    var brand1Select = document.getElementById("categorySelect1");
-    var brand2Select = document.getElementById("categorySelect2");
-    var submitButton = document.querySelector(".btn-primary");
-
-    if (brand1Select.value === brand2Select.value) {
-        alert("Brand and Competitor Brand cannot be the same. Please choose different brands.");
-        submitButton.disabled = true;
-    } else {
-        submitButton.disabled = false;
-    }
-}
-
-    </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+                    <select id="category" class="my-2"  onchange="makeSubmenu(this.value)">
+                        <option value="" disabled selected>Choose Category</option>
+                        <option value="mobiles">Mobiles</option>
+                        <option value="laptops">Laptops</option>
+                        <option value="streaming">Steaming Services</option>
+                        <option value="social_media">Social Media</option>
+                        <option value="automobiles">Automobiles</option>
+                        <option value="food_delivery">Food Delivery</option>
+                        <option value="consoles">Consoles</option>
+                        <option value="music">Music</option>
+                    </select>
+                <select class="my-2" name="brand1" id="categorySelect1">
+                    <option value="" disabled selected>Choose Your Brand</option>
+                    <option></option>
+                </select>
+                <select class="my-2" name="brand2" id="categorySelect2">
+                    <option value="" disabled selected>Choose Competitor Brand</option>
+                    <option></option>
+                </select>
+                <button type="submit" class="btn-primary mt-4 mx-auto">Submit</button>
+            </form>
+        </div>
+        <script>
+            var subcategory = {
+                mobiles: ["Apple", "Redmi", "Samsung","Oppo","Vivo"],
+                laptops: ["HP", "Samsung", "Acer","Dell","Lenovo"],
+                streaming:["Netflix","Amazon","Hulu","Youtube","Disney"],
+                social_media:["Facebook","Youtube","WhatsApp","Instagram"],
+                automobiles:["Maruti Suzuki","Hyundai","Skoda","Tata"],
+                food_delivery:["Dunzo","Zomato","swiggy"]
+            }
+            function makeSubmenu(value) {
+                if (value.length == 0) document.getElementById("categorySelect").innerHTML = "<option></option>";
+                else {
+                    var citiesOptions = "";
+                    for (categoryId in subcategory[value]) {
+                        citiesOptions += "<option>" + subcategory[value][categoryId] + "</option>";
+                    }
+                    document.getElementById("categorySelect1").innerHTML = citiesOptions;
+                    document.getElementById("categorySelect2").innerHTML = citiesOptions;
+                }
+            }
+            </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
 </html>

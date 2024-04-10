@@ -29,96 +29,20 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import networkx as nx
 
-
-    
-features_array={
-        "mobiles":{
-        "camera": ["camera", "photo", "picture", "lens", "image quality"], 
-        "battery": ["battery", "charge", "life", "battery drain"],
-        "screen": ["screen", "display", "resolution", "oled", "amoled"],
-        "processor": ["processor", "speed", "chip", "snapdragon", "performance", "bionic","a14"], 
-        "design": ["design", "look", "feel", "build quality"],
-        "price": ["price", "expensive", "cheap", "value"]
-    },
-    
-    "food_delivery": {
-        "ordering": ["order", "ordering", "menu", "easy", "variety", "options"],
-        "delivery": ["delivery", "time", "fast", "track", "tracking", "fee", "fees"],
-        "food": ["food", "quality", "taste", "delicious", "portion"],
-        "customer_service": ["service", "support", "help", "response", "refund"],
-        "pricing": ["price", "value", "expensive", "cheap", "discount", "promotion"]
-    },
-    "laptops": {
-        "performance": ["performance", "speed", "processor", "i5", "i7", "i9", "ryzen", "m1", "m2"],
-        "graphics": ["graphics", "gpu", "dedicated_graphics", "integrated_graphics", "nvidia", "amd", "intel_iris"],
-        "display": ["display", "screen", "resolution", "retina", "oled", "ips", "refresh_rate"],
-        "storage": ["storage", "ssd", "hdd", "hard_drive", "capacity", "256gb", "512gb", "1tb"],
-        "memory": ["memory", "ram", "8gb", "16gb", "32gb"],
-        "build": ["build", "design", "materials", "aluminum", "magnesium", "weight", "thinness"],
-        "battery": ["battery", "battery_life", "charge", "longevity"],
-        "price": ["price", "expensive", "cheap", "value", "affordable"]
-    },
-    "streaming_services": {
-        "content_library": ["library", "movies", "shows", "selection", "variety", "originals", "exclusives"],
-        "genres": ["genres", "comedy", "drama", "thriller", "sci-fi", "horror", "documentaries"],
-        "quality": ["quality", "4k", "hdr", "dolby", "resolution", "streaming_quality", "buffering"],
-        "price": ["price", "value", "subscription", "plans", "bundles", "free_trial"],
-        "customer_support": ["support", "customer_service", "help", "responsive"]
-    },
-    "social_media": {
-        "content_types": ["posts", "photos", "videos", "stories", "reels", "live"],
-        "user_experience": ["ui", "ux", "user_interface", "design", "navigation", "ease_of_use", "bugs"],
-        "social_features": ["messaging", "groups", "events", "marketplace", "sharing", "profiles"],
-        "community": ["community", "interactions", "comments", "engagement", "moderation", "toxicity"],
-        "privacy": ["privacy", "security", "data", "data_collection", "ads", "settings"],
-        "customer_support": ["support", "customer_service", "help", "responsive", "issues"]
-    },
-    "automobiles": {
-        "performance": ["performance", "speed", "acceleration", "handling", "horsepower", "torque", "engine", "transmission"],
-        "fuel_efficiency": ["fuel", "mpg", "efficiency", "hybrid", "electric", "range"],
-        "safety": ["safety", "crash_test", "airbags", "brakes", "driver_assistance"],
-        "reliability": ["reliability", "dependable", "issues", "maintenance", "warranty"],
-        "technology": ["technology", "infotainment", "gps", "bluetooth", "sound_system", "voice_commands"],
-        "price": ["price", "value", "affordability", "expensive", "deals"]
-    },
-    "music_streaming_services": {
-        "music_library": ["library", "songs", "artists", "albums", "selection", "variety"],
-        "genres": ["genres", "pop", "rock", "hip_hop", "classical", "jazz", "electronic", "niche"],
-        "sound_quality": ["quality", "high_fidelity", "lossless", "bitrate", "spatial_audio"],
-        "features": ["offline_listening", "lyrics", "podcasts", "social", "concerts"],
-        "price": ["price", "value", "subscription", "plans", "bundle", "free"],
-        "customer_support": ["support", "customer_service", "help", "responsive"]
-    },
-    "gaming_consoles": {
-        "hardware": ["hardware", "power", "graphics", "specs", "processor", "storage", "controller"],
-        "online_services": ["online", "multiplayer", "subscriptions", "ps_plus", "game_pass"],
-        "features": ["backward_compatibility", "vr", "game_streaming", "interface", "media"],
-        "game_library": ["library", "games", "selection", "variety", "indie"],
-        "user_experience": ["ui", "ux", "user_interface", "design", "navigation", "ease_of_use"],
-        "community": ["community", "online", "friends", "tournaments"],
-        "price": ["price", "value", "affordability", "expensive"]
-    }
-}
-
-
-
-
 @app.route("/",methods=["GET","POST"])
 def index():
     if request.method=="POST":
         brand1=request.form['brand1']
         brand2=request.form['brand2']
-        category=request.form['category']
-        jsonobjs=getAnalysis(brand1,brand2,category)
+        jsonobjs=getAnalysis(brand1,brand2)
         return render_template("main.html",jsonobjs=jsonobjs)    
     return render_template("index.html")
     
 # Initialize Sentiment analyzer
-def getAnalysis(brand1,brand2,category):
+def getAnalysis(brand1,brand2):
     analyzer = SentimentIntensityAnalyzer() 
     brand1=brand1.lower()
     brand2=brand2.lower()
-    features=features_array[category]
     buff=io.BytesIO()
     def calculate_sentiment(text):
         if not text.strip():  # Check if empty after removing whitespace
@@ -167,7 +91,7 @@ def getAnalysis(brand1,brand2,category):
     brand2_path = brand2[0].upper()+brand2[1:]
     dfr = process_data(brand1_path, brand2_path)
     # index=False to avoid an extra index column
-    # print(dfr)
+    print(dfr)
 
 
 
@@ -194,7 +118,7 @@ def getAnalysis(brand1,brand2,category):
     influence_brand1_on_brand2, influence_brand2_on_brand1 = calculate_influence(dtf)
 
     print(f"Influence of {brand1} on {brand2}: {influence_brand1_on_brand2:.2f}%")
-    # print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
+    print(f"Influence of {brand2} on {brand1}: {influence_brand2_on_brand1:.2f}%")
 
 
     brand = f"{brand1} on {brand2}"  
@@ -214,7 +138,7 @@ def getAnalysis(brand1,brand2,category):
     bars = plt.bar(df_d.index, df_d['Influence Score (%)'], color='skyblue')
     plt.xlabel('Influence')
     plt.ylabel('Percentage (%)')
-    plt.title(f"{brand1[0].upper()+brand1[1:]} Influence on Sentiment")
+    plt.title(f"{brand1} Influence on Sentiment")
     plt.ylim(0, 100) 
 
     # Add percentage labels (optional)
@@ -244,7 +168,7 @@ def getAnalysis(brand1,brand2,category):
         return combined_df
 
     df = process_data(brand1_path, brand2_path)
-    # print(df.head)
+    print(df.head)
     
     def generate_wordcloud(brand_data, brand_name,*ct):
         text = " ".join(tweet for tweet in brand_data['tweet_text_element'])
@@ -261,7 +185,7 @@ def getAnalysis(brand1,brand2,category):
         plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
 
         jsonobjs[ct]=plot_url
-        # print(ct)
+        print(ct)
 
 
 
@@ -286,7 +210,7 @@ def getAnalysis(brand1,brand2,category):
     buff.seek(0)
     plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
     jsonobjs["bar2"]=plot_url
-    # print("bar2")    
+    print("bar2")    
     brand_data = df[df['brand'] ==     brand2[0].upper()+brand2[1:]]
     text = " ".join(tweet for tweet in brand_data['tweet_text_element'])
     wordcloud = WordCloud(background_color='white', width=800, height=600).generate(text)
@@ -300,7 +224,7 @@ def getAnalysis(brand1,brand2,category):
     buff.seek(0)
     plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
     jsonobjs["bar3"]=plot_url
-    # print("bar3")
+    print("bar3")
     sentiment_scores = {}  # Initialize an empty dictionary to store sentiment scores
 
     def calculate_feature_sentiment(tweet_text, feature_keywords):
@@ -309,6 +233,14 @@ def getAnalysis(brand1,brand2,category):
             sentiment_score = analyzer.polarity_scores(tweet_text)['compound']
         return sentiment_score
 
+    features = {
+        "camera": ["camera", "photo", "picture", "lens", "image quality"], 
+        "battery": ["battery", "charge", "life", "battery drain"],
+        "screen": ["screen", "display", "resolution", "oled", "amoled"],
+        "processor": ["processor", "speed", "chip", "snapdragon", "performance", "bionic","a14"], 
+        "design": ["design", "look", "feel", "build quality"],
+        "price": ["price", "expensive", "cheap", "value"]
+    }
 
     for brand in df['brand'].unique():
         for feature, keywords in features.items():
@@ -349,7 +281,7 @@ def getAnalysis(brand1,brand2,category):
     x = range(len(feature_labels))
     bar_width = 0.35
     plt.bar(x, brand1_sentiment, bar_width, label=brand1[0].upper()+brand1[1:])
-    plt.bar([p + bar_width for p in x], brand2_sentiment, bar_width, label=brand2[0].upper()+brand2[1:])
+    plt.bar([p + bar_width for p in x], brand2_sentiment, bar_width, label='Samsung')
     plt.xlabel('Feature')
     plt.ylabel('Normalized Sentiment Score (0-1)')
     title = 'Comparison of Average Sentiment by Feature (Normalized)'
@@ -388,7 +320,7 @@ def getAnalysis(brand1,brand2,category):
     for brand in brands:
         brand_features = [n for n in G.neighbors(brand)]  # Features connected to a brand
         top_features = sorted(brand_features, key=lambda x: degree_centrality[x], reverse=True)[:3]
-        # print(f"Top Features for {brand}: {top_features}")
+        print(f"Top Features for {brand}: {top_features}")
         
     # Customize visualization 
     node_colors = ['lightblue' if G.nodes[n]['type'] == 'brand' else 'orange' for n in G.nodes()]
@@ -396,9 +328,7 @@ def getAnalysis(brand1,brand2,category):
     pos = nx.spring_layout(G)  # You can experiment with different layouts
 
     nx.draw(G, pos, with_labels=True, node_color=node_colors, width=edge_widths)
-    
     buff=io.BytesIO()
-    plt.title("Network Analysis")
     plt.savefig(buff,format='png')
     buff.seek(0)
     plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
@@ -428,9 +358,8 @@ def getAnalysis(brand1,brand2,category):
         buff.seek(0)
         plot_url = base64.b64encode(buff.getvalue()).decode('utf8')
         jsonobjs["bar6"]=plot_url
-        # print(overtime)
+        print(overtime)
     else:
         print(f"Error: The data file  is missing required columns.")
-    jsonobjs["branda"]=brand1
-    jsonobjs["brandb"]=brand2
+ 
     return jsonobjs
